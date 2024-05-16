@@ -15,14 +15,16 @@ from torchvision.models.quantization import mobilenet
 model = mobilenet.mobilenet_v2(pretrained=True, quantize=True)
 model.eval()
 # Image processing required for MobileNetV2
-preprocess = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-])
+preprocess = transforms.Compose(
+    [
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ]
+)
 # Load ImageNet classes
-imagenetclasses = json.load(open('imagenet-simple-labels.json'))
+imagenetclasses = json.load(open("imagenet-simple-labels.json"))
 MIN_SCORE = 0.5
 
 # Initialize Tkinter
@@ -36,7 +38,10 @@ lmain.grid()
 cap = cv2.VideoCapture(0)
 # Check that we have camera access
 if not cap.isOpened():
-    lmain.config(text="Unable to open camera: please grant appropriate permission in Pydroid permissions plugin and relaunch.\nIf this doesn't work, ensure that your device supports Camera NDK API: it is required that your device supports non-legacy Camera2 API.", wraplength=lmain.winfo_screenwidth())
+    lmain.config(
+        text="Unable to open camera: please grant appropriate permission in Pydroid permissions plugin and relaunch.\nIf this doesn't work, ensure that your device supports Camera NDK API: it is required that your device supports non-legacy Camera2 API.",
+        wraplength=lmain.winfo_screenwidth(),
+    )
     root.mainloop()
     sys.exit(0)
 else:
@@ -99,7 +104,9 @@ def classify():
                 txt = "No object detected"
             else:
                 txt = "Detected the following object: " + imagenetclasses[maxid]
-            lmain.config(text=txt, wraplength=lmain.winfo_screenwidth(), compound=tk.BOTTOM)
+            lmain.config(
+                text=txt, wraplength=lmain.winfo_screenwidth(), compound=tk.BOTTOM
+            )
 
 
 refresh()
